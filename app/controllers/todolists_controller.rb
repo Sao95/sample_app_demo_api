@@ -5,8 +5,10 @@ class TodolistsController < ApplicationController
 
   def create
     list = List.new(list_params)
+    # 投稿した本文をAPI側に渡す
+    list.score = Language.get_data(list_params[:body])
     list.save
-    # API側に渡す
+    # 投稿した画像をAPI側に渡す
     tags = Vision.get_image_data(list.image)
     # API側から返ってきた値をもとにタグを作成
     tags.each do |tag|
