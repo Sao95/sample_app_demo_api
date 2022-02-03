@@ -6,6 +6,12 @@ class TodolistsController < ApplicationController
   def create
     list = List.new(list_params)
     list.save
+    # API側に渡す
+    tags = Vision.get_image_data(list.image)
+    # API側から返ってきた値をもとにタグを作成
+    tags.each do |tag|
+      list.tags.create(name: tag)
+    end
     redirect_to todolist_path(list.id)
   end
 
